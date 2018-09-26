@@ -1,13 +1,17 @@
 # Changelog
 
+### 1.0.8
+
+-   Extracts the Webpack loader (#1) as a separate file.
+
 ### 1.0.7
 
--   Adds Webpack loader (#1)
+-   Adds Webpack loader (#1).
 
 ### 1.0.6
 
--   Adds configurable log level
--   Adds configurable placeholder string
+-   Adds configurable log level;
+-   Adds configurable placeholder string.
 
 ### 1.0.5
 

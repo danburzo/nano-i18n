@@ -1,5 +1,6 @@
 let tape = require('tape');
-let { k, v, t, load, clear, config, loader } = require('./dist/index.js');
+let { k, v, t, load, clear, config } = require('./dist/index.js');
+let loader = require('./loader.js');
 
 tape('k', test => {
 	test.equal(k`Hello, ${'World'}`, 'Hello, {}');

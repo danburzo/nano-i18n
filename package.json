@@ -11,7 +11,8 @@
 	"license": "MIT",
 	"files": [
 		"dist",
-		"index.js"
+		"index.js",
+		"loader.js"
 	],
 	"devDependencies": {
 		"husky": "^1.0.0",

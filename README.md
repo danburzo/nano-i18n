@@ -197,6 +197,8 @@ This is useful for passing the `t` function to templating languages such as Must
 
 § **loader**
 
+`nano-i18n` exposes a `loader` function that can be used with Webpack to load translations from external files.
+
 `nano-i18n` can be used with Webpack to load translations from external files. It expects as input an array of `key` / `val` pairs:
 
 ```
