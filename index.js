@@ -36,6 +36,4 @@ function load(k, v) {
 	db[k] = v;
 }
 
-export translate as t;
-export value as v;
-export key as k;
+export { translate as t, value as v, key as k };
