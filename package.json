@@ -1,6 +1,6 @@
 {
 	"name": "nano-i18n",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"main": "dist/index.js",
 	"umd:main": "dist/index.umd.js",
 	"browser": "dist/index.umd.js",
@@ -9,6 +9,10 @@
 	"repository": "git@github.com:danburzo/nano-i18n.git",
 	"author": "Dan Burzo <danburzo@gmail.com>",
 	"license": "MIT",
+	"files": [
+		"dist",
+		"index.js"
+	],
 	"devDependencies": {
 		"husky": "^1.0.0",
 		"microbundle": "^0.6.0",
