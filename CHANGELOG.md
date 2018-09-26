@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.0.8
+### 1.0.9
 
 -   Extracts the Webpack loader (#1) as a separate file.
 
