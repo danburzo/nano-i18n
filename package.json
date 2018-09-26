@@ -1,6 +1,6 @@
 {
 	"name": "nano-i18n",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"main": "dist/index.js",
 	"umd:main": "dist/index.umd.js",
 	"browser": "dist/index.umd.js",
@@ -17,7 +17,8 @@
 	},
 	"scripts": {
 		"build": "microbundle",
-		"dev": "microbundle watch"
+		"dev": "microbundle watch",
+		"prepublish": "yarn build"
 	},
 	"prettier": {
 		"bracketSpacing": true,
