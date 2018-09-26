@@ -55,7 +55,7 @@ console.log(t`My name is ${'Dan'}, yours is ${'Alex'}`);
 
 ### Managing translations
 
-§ **load**(key: _string_, value: _function_)
+§ **load**(key: _string_, value: _string_ | _function_)
 
 Set up a translation:
 
@@ -88,12 +88,20 @@ load({
 });
 ```
 
-Or skipping the `k` literal altogether and using a string key directly:
+Or skipping the `k` literal tag altogether and using a string key directly:
 
 ```js
 import { load } from 'nano-i18n';
 
 load('Hello, {}!', v`Salut, ${0}!`);
+```
+
+You can also skip the `v` literal tag and send a simple string translation:
+
+```js
+import { load } from 'nano-i18n';
+
+load('Hello, World!', 'Salut, lume!');
 ```
 
 § **clear**()
@@ -148,6 +156,16 @@ t`Hello, ${'Dan'}!`;
 ```
 
 If there's no translation available, it returns the normal interpolated string instead, and logs a warning to the console.
+
+You can also use `t` as a normal function for translating dynamic strings:
+
+```js
+import { t } from 'nano-i18n';
+
+t('Hello World');
+```
+
+This is useful for passing the `t` function to templating languages such as Mustache.
 
 ## Further reading
 

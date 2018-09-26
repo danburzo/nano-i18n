@@ -46,12 +46,14 @@ function value(strings, ...placeholders) {
 	a simple interpolation is returned instead.
  */
 function translate(strings, ...values) {
-	let k = key(strings);
-	if (!db[k]) {
+	let isString = typeof strings === 'string';
+	let k = isString ? strings : key(strings);
+	let val = db[k];
+	if (!val) {
 		console.warn(`No translation found for ${k}`);
-		return interpolate(strings, values);
+		return isString ? strings : interpolate(strings, values);
 	}
-	return db[k](values);
+	return typeof val === 'string' ? val : val(values);
 }
 
 /*
@@ -61,6 +63,10 @@ function translate(strings, ...values) {
 	an object as the first argument, or one by one:
 
 		load(k`Hello, ${'World'}`, v`Salut, ${0}`);
+
+	You can also use static strings as translations:
+
+		load('Hello, World!', 'Salut, lume!');
  */
 function load(k, v) {
 	if (typeof k === 'object') {
