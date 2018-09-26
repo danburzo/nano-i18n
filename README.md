@@ -195,21 +195,46 @@ This is useful for passing the `t` function to templating languages such as Must
 
 ### Usage with Webpack
 
-§ **loader**
+This library can be used with Webpack to load translations from external files with the `nano-i18n/loader` loader. `nano-i18n` comes with the loader, so you don't have to install any other packages.
 
-`nano-i18n` exposes a `loader` function that can be used with Webpack to load translations from external files.
+**webpack.config.js**
 
-`nano-i18n` can be used with Webpack to load translations from external files. It expects as input an array of `key` / `val` pairs:
+```js
+module.exports = {
+	module: {
+		rules: [
+			{
+				test: /\.json$/,
+				include: /locales/,
+				loader: 'nano-i18n/loader'
+			}
+		]
+	}
+};
+```
+
+By default, external files are expected to be JSONs containing an _array of `key`/`val` pairs_, like in the example below:
+
+**locales/ro-RO.json**
 
 ```
 [
-	{ key: 'Hello, ${"World"}', val: 'Salut, ${0}' },
-	{ key: 'Some String', val: 'Un Șir Oarecare'},
-	// ...
+	{ "key": "Hello, ${'World'}", val: "Salut, ${0}" },
+	{ "key": "Some String", val: "Un Șir Oarecare"},
+	// etc.
 ]
 ```
 
-Here's an example of combining the loader with [`dsv-loader`](https://github.com/wbkd/dsv-loader) for keeping translations in CSV files:
+With this setup in place, we can use the JSON in our code:
+
+```js
+import { load } from 'nano-i18n';
+load(require('path/to/locales/ro-RO.json'));
+```
+
+`nano-i18n/loader` accepts the `parse` option with which you can keep the external translation files in any format, as long as you return an _array of `key`/`val` pairs_ from it.
+
+For example, let's say you want to keep the translations in a CSV file that you can edit using Microsoft Excel or macOS Numbers:
 
 **en.csv**
 
@@ -219,31 +244,30 @@ Here's an example of combining the loader with [`dsv-loader`](https://github.com
 "Some String","Un Șir Oarecare"
 ```
 
+In our Webpack configuration, we'll parse the CSV file using the [`d3-dsv`](https://github.com/d3/d3-dsv) package:
+
 **webpack.config.js**
 
 ```js
-import { loader } from 'nano-i18n';
+let { parseCSV } = require('d3-dsv');
 
 module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(c|d|t)sv$/,
-				use: [loader, 'dsv-loader']
+				test: /\.json$/,
+				include: /locales/,
+				loader: 'nano-i18n/loader',
+				options: {
+					parse: text => parseCSV(text)
+				}
 			}
 		]
 	}
 };
 ```
 
-and then, in your code:
-
-```js
-import dict_en from './path/to/en.csv';
-import { load } from 'nano-i18n';
-
-load(dict_en);
-```
+The `parse` option accepts a function which receives as its only argument the original text to parse, and which must return an array of `key`/`val` pairs.
 
 ## Further reading
 
