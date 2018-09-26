@@ -1,4 +1,4 @@
-const db = {};
+let db = {};
 
 /*
 	Combines two arrays of strings of (mostly) the same length
@@ -15,7 +15,10 @@ function key(strings) {
 }
 
 function value(strings, ...placeholders) {
-	return values => interpolate(strings, placeholders.map(i => values[i]));
+	return values =>
+		placeholders.length
+			? interpolate(strings, placeholders.map(i => values[i]))
+			: strings.join('');
 }
 
 function translate(strings, ...values) {
@@ -36,4 +39,8 @@ function load(k, v) {
 	db[k] = v;
 }
 
-export { translate as t, value as v, key as k, load };
+function clear() {
+	db = {};
+}
+
+export { translate as t, value as v, key as k, load, clear };

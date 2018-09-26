@@ -17,12 +17,14 @@
 		"husky": "^1.0.0",
 		"microbundle": "^0.6.0",
 		"prettier": "1.14.3",
-		"pretty-quick": "^1.7.0"
+		"pretty-quick": "^1.7.0",
+		"tape": "^4.9.1"
 	},
 	"scripts": {
 		"build": "microbundle",
 		"dev": "microbundle watch",
-		"prepublish": "yarn build"
+		"prepublish": "yarn test",
+		"test": "yarn build && yarn tape index.test.js"
 	},
 	"prettier": {
 		"bracketSpacing": true,
