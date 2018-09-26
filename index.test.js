@@ -1,5 +1,5 @@
 let tape = require('tape');
-let { k, v, t, load, clear, config } = require('./dist/index.js');
+let { k, v, t, load, clear, config, loader } = require('./dist/index.js');
 
 tape('k', test => {
 	test.equal(k`Hello, ${'World'}`, 'Hello, {}');
@@ -58,6 +58,24 @@ tape('config', test => {
 	config({ placeholder: '@@' });
 	test.equal(k`Hello, ${'World'}`, 'Hello, @@');
 	config({ placeholder: '{}' });
+
+	test.end();
+});
+
+tape('loader', test => {
+	let expected = `var nano = require('nano-i18n');
+var res = {};
+res[nano.k\`Hello, $\{'World'}\`] = nano.v\`Salut, $\{0}\`;
+res[nano.k\`Simple String\`] = nano.v\`Șir Simplu\`;
+module.exports = res;`;
+
+	test.equal(
+		loader([
+			{ key: "Hello, ${'World'}", val: 'Salut, ${0}' },
+			{ key: 'Simple String', val: 'Șir Simplu' }
+		]),
+		expected
+	);
 
 	test.end();
 });

@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.7
+
+-   Adds Webpack loader (#1)
+
 ### 1.0.6
 
 -   Adds configurable log level

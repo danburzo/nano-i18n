@@ -120,4 +120,18 @@ function config(opts) {
 	}
 }
 
-export { translate as t, value as v, key as k, load, clear, config };
+/* 
+	Webpack loader
+*/
+function loader(obj) {
+	if (typeof this.cacheable === 'function') {
+		this.cacheable();
+	}
+
+	return `var nano = require('nano-i18n');
+var res = {};
+${obj.map(entry => `res[nano.k\`${entry.key}\`] = nano.v\`${entry.val}\`;`).join('\n')}
+module.exports = res;`;
+}
+
+export { translate as t, value as v, key as k, load, clear, config, loader };

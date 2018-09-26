@@ -193,6 +193,56 @@ t('Hello World');
 
 This is useful for passing the `t` function to templating languages such as Mustache.
 
+### Usage with Webpack
+
+§ **loader**
+
+`nano-i18n` can be used with Webpack to load translations from external files. It expects as input an array of `key` / `val` pairs:
+
+```
+[
+	{ key: 'Hello, ${"World"}', val: 'Salut, ${0}' },
+	{ key: 'Some String', val: 'Un Șir Oarecare'},
+	// ...
+]
+```
+
+Here's an example of combining the loader with [`dsv-loader`](https://github.com/wbkd/dsv-loader) for keeping translations in CSV files:
+
+**en.csv**
+
+```csv
+"key","val"
+"Hello, ${'World'}","Salut, ${0}"
+"Some String","Un Șir Oarecare"
+```
+
+**webpack.config.js**
+
+```js
+import { loader } from 'nano-i18n';
+
+module.exports = {
+	module: {
+		rules: [
+			{
+				test: /\.(c|d|t)sv$/,
+				use: [loader, 'dsv-loader']
+			}
+		]
+	}
+};
+```
+
+and then, in your code:
+
+```js
+import dict_en from './path/to/en.csv';
+import { load } from 'nano-i18n';
+
+load(dict_en);
+```
+
 ## Further reading
 
 -   [i18n with tagged template literals in ECMAScript 2015](https://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals/) by Jack Hsu
