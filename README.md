@@ -213,30 +213,30 @@ module.exports = {
 };
 ```
 
-By default, external files are expected to be JSONs containing an _array of `key`/`val` pairs_, like in the example below:
+By default, external files are expected to be JSONs containing an **array of `key`/`val` pairs**, i.e.:
 
 **locales/ro-RO.json**
 
-```
+```js
 [
-	{ "key": "Hello, ${'World'}", val: "Salut, ${0}" },
-	{ "key": "Some String", val: "Un Șir Oarecare"},
+	{ key: "Hello, ${'World'}", val: 'Salut, ${0}' },
+	{ key: 'Some String', val: 'Un Șir Oarecare' }
 	// etc.
-]
+];
 ```
 
-With this setup in place, we can use the JSON in our code:
+With this setup in place, we can load the JSON as ready-to-use translations:
 
 ```js
 import { load } from 'nano-i18n';
 load(require('path/to/locales/ro-RO.json'));
 ```
 
-`nano-i18n/loader` accepts the `parse` option with which you can keep the external translation files in any format, as long as you return an _array of `key`/`val` pairs_ from it.
+`nano-i18n/loader` also accepts a `parse` option with you can use to keep the external translation files in any format, as long as you format it to `key`/`val` pairs.
 
-For example, let's say you want to keep the translations in a CSV file that you can edit using Microsoft Excel or macOS Numbers:
+Let's say you want to keep the translations in a CSV file so that it's easy to edit them in Microsoft Excel or macOS Numbers:
 
-**en.csv**
+**locales/ro-RO.csv**
 
 ```csv
 "key","val"
@@ -249,17 +249,17 @@ In our Webpack configuration, we'll parse the CSV file using the [`d3-dsv`](http
 **webpack.config.js**
 
 ```js
-let { parseCSV } = require('d3-dsv');
+let { csvParse } = require('d3-dsv');
 
 module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.json$/,
+				test: /\.csv$/,
 				include: /locales/,
 				loader: 'nano-i18n/loader',
 				options: {
-					parse: text => parseCSV(text)
+					parse: text => csvParse(text)
 				}
 			}
 		]
@@ -267,7 +267,7 @@ module.exports = {
 };
 ```
 
-The `parse` option accepts a function which receives as its only argument the original text to parse, and which must return an array of `key`/`val` pairs.
+> 💡 The `parse` option accepts a function which receives as its only argument the original text to parse, and which must return an array of `key`/`val` pairs.
 
 ## Further reading
 
