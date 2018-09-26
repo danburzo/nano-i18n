@@ -2,7 +2,13 @@
 
 Tiny (experimental) i18n library for JavaScript using [tagged template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
-## Usage
+## Installation
+
+### Try it out
+
+You can [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
+
+### As a Node.js module
 
 Install the library using `npm` or `yarn`:
 
@@ -14,7 +20,15 @@ npm install nano-i18n
 yarn add nano-i18n
 ```
 
-Then import it into your code:
+### Using unpkg
+
+You can load the library through a `<script>` tag using `unpkg.com`:
+
+```html
+<script src='https://unpkg.com/nano-i18n'></script>
+```
+
+## Usage
 
 ```js
 import { load, k, v, t } from 'nano-i18n';
