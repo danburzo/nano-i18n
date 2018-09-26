@@ -5,6 +5,24 @@
  */
 let db = {};
 
+const PLACEHOLDER = '{}';
+
+let _placeholder = PLACEHOLDER;
+
+// ignores missing translation
+const LOG_SILENT = 0;
+
+// logs warning in console on missing translation
+const LOG_WARN = 1;
+
+// throws error on missing translation
+const LOG_ERROR = 2;
+
+/*
+	Log level. Configurable from config()
+ */
+let _log = LOG_SILENT;
+
 /*
 	Combines two arrays of strings of (mostly) the same length
 	into a single string, through interpolation.
@@ -23,7 +41,7 @@ function interpolate(strings, values) {
 	E.g. key`Hello, ${'World'}` => "Hello, {}"
  */
 function key(strings) {
-	return strings.join('{}');
+	return strings.join(_placeholder);
 }
 
 /*
@@ -50,7 +68,7 @@ function translate(strings, ...values) {
 	let k = isString ? strings : key(strings);
 	let val = db[k];
 	if (!val) {
-		console.warn(`No translation found for ${k}`);
+		exceptional(`No translation found for ${k}`);
 		return isString ? strings : interpolate(strings, values);
 	}
 	return typeof val === 'string' ? val : val(values);
@@ -84,4 +102,22 @@ function clear() {
 	db = {};
 }
 
-export { translate as t, value as v, key as k, load, clear };
+function exceptional(str) {
+	if (_log === LOG_WARN) {
+		console.warn(str);
+	} else if (_log === LOG_ERROR) {
+		throw new Error(str);
+	}
+}
+
+function config(opts) {
+	if (opts.log !== undefined) {
+		_log = opts.log;
+	}
+
+	if (opts.placeholder !== undefined) {
+		_placeholder = opts.placeholder;
+	}
+}
+
+export { translate as t, value as v, key as k, load, clear, config };

@@ -1,5 +1,5 @@
 let tape = require('tape');
-let { k, v, t, load, clear } = require('./dist/index.js');
+let { k, v, t, load, clear, config } = require('./dist/index.js');
 
 tape('k', test => {
 	test.equal(k`Hello, ${'World'}`, 'Hello, {}');
@@ -42,5 +42,22 @@ tape('load and clear', test => {
 	test.equal(t`Hello, ${'Dan'}!`, 'Salut, Dan!');
 	clear();
 	test.equal(t`Hello, ${'Dan'}!`, 'Hello, Dan!');
+	test.end();
+});
+
+tape('config', test => {
+	clear();
+	config({ log: 1 });
+	test.equal(t('Hello World'), 'Hello World');
+	config({ log: 2 });
+	test.throws(() => {
+		t('Hello World');
+	}, /No translation found/);
+	config({ log: 0 });
+
+	config({ placeholder: '@@' });
+	test.equal(k`Hello, ${'World'}`, 'Hello, @@');
+	config({ placeholder: '{}' });
+
 	test.end();
 });

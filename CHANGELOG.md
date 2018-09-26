@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.0.6
+
+-   Adds configurable log level
+-   Adds configurable placeholder string
+
 ### 1.0.5
 
 -   Adds the ability to `load()` simple string pairs;
