@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.10
+
+-   Adds the ability to set a custom log function (#3)
+
 ### 1.0.9
 
 -   Extracts the Webpack loader (#1) as a separate file.

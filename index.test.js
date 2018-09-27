@@ -54,6 +54,15 @@ tape('config', test => {
 	test.throws(() => {
 		t('Hello World');
 	}, /No translation found/);
+	config({
+		log: function() {
+			throw new Error('CustomError');
+		}
+	});
+	test.throws(() => {
+		t('Hello World');
+	}, /CustomError/);
+
 	config({ log: 0 });
 
 	config({ placeholder: '@@' });

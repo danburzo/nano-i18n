@@ -102,11 +102,19 @@ function clear() {
 	db = {};
 }
 
+/*
+	Keep track of exceptions.
+	Currently, only missing translations are exceptions.
+
+	Decide what to do based on the log level.
+ */
 function exceptional(str) {
 	if (_log === LOG_WARN) {
 		console.warn(str);
 	} else if (_log === LOG_ERROR) {
 		throw new Error(str);
+	} else if (typeof _log === 'function') {
+		_log(str);
 	}
 }
 

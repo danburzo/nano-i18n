@@ -126,6 +126,19 @@ The log level for the library. Possible values:
 -   `1` logs a warning in the console on a missing translation
 -   `2` throws an error when encountering a missing translation
 
+You can also set up a custom logging function, in case you want to keep track of exceptions some other way:
+
+```js
+import { config } from 'nano-i18n';
+
+config({
+	log: function(str) {
+		// do something with `str`,
+		// e.g. send the error to Sentry
+	}
+});
+```
+
 _placeholder_ (String, default `{}`)
 
 The string to use as placeholder for interpolated values when generating the key for a translation.
