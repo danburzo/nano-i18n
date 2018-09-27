@@ -1,30 +1,32 @@
 # nano-i18n
 
-Tiny experimental i18n library for JavaScript using [tagged template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
+`nano-i18n` is a tiny experimental internationalization library for JavaScript, using [tagged template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
-I'm starting small and evolving as the need arises.
+## Introduction
+
+> 🔎 **Internationalization** (often abbreviated as **i18n**) is making sure a program can be adapted for several languages / cultures. It involves translating the words, but also using date, time, and number formats to which the people from a certain culture are accustomed.
+
+`nano-i18n` aims to offer a pleasant way of making your JavaScript app amenable to localization, without getting in the way too much. It focuses, for now, on translating strings.
 
 ## Installation
 
-### Try it out
+> 💡 You can [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
 
-You can [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
-
-### As a Node.js module
+### From the `npm` registry
 
 Install the library using `npm` or `yarn`:
 
 ```bash
+# using npm
 npm install nano-i18n
-```
 
-```bash
+# using yarn
 yarn add nano-i18n
 ```
 
-### Using unpkg
+### As a `<script>` tag
 
-You can load the library through a `<script>` tag using `unpkg.com`:
+You can load the library directly in the browser as a `<script>` tag, using **unpkg**. This will get you the latest version in the UMD module format:
 
 ```html
 <script src='https://unpkg.com/nano-i18n'></script>
@@ -32,18 +34,34 @@ You can load the library through a `<script>` tag using `unpkg.com`:
 
 ## Usage
 
+Once you install the npm package, you can use it in your code like this:
+
 ```js
+/*
+	1. Import the methods you need
+	------------------------------
+
+	P.S. You can also use require('nano-i18n')
+ */
 import { load, k, v, t } from 'nano-i18n';
 
-// 1. Load some translations
+/*
+	2. Load some translations into the store
+	----------------------------------------
+ */
 
-// Simple replacement
+// E.g. A simple key/value pair
 load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
 
-// Swap the order of values in the translation
+// In the translation, you can swap
+// the order of the expressions
 load(k`My name is ${'mine'}, yours is ${'yours'}`, v`Your name is ${1}, mine is ${0}`);
 
-// 2. Translate some messages
+/* 
+	3. Translate some messages
+	--------------------------
+*/
+
 console.log(t`Hello, ${'Dan'}!`);
 // => "Salut, Dan!"
 
@@ -55,9 +73,9 @@ console.log(t`My name is ${'Dan'}, yours is ${'Alex'}`);
 
 ### Managing translations
 
-§ **load**(key: _string_, value: _string_ | _function_)
+📖 **load**(key: _string_, value: _string_ | _function_)
 
-Set up a translation:
+The _load_ method adds translations to the store. You can add the translations one by one:
 
 ```js
 import { load } from 'nano-i18n';
@@ -65,7 +83,7 @@ import { load } from 'nano-i18n';
 load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
 ```
 
-You can also add a batch of translations:
+Or a whole batch of translations:
 
 ```js
 import { load } from 'nano-i18n';
@@ -104,9 +122,9 @@ import { load } from 'nano-i18n';
 load('Hello, World!', 'Salut, lume!');
 ```
 
-§ **clear**()
+📖 **clear**()
 
-Clears all the translations:
+The `clear` method removes all the translations from the store.
 
 ```js
 import { clear } from 'nano-i18n';
@@ -114,11 +132,11 @@ import { clear } from 'nano-i18n';
 clear();
 ```
 
-§ **config**(options: _object_)
+📖 **config**(options: _object_)
 
 Configures the library. Available options:
 
-_log_ (Number, default `0`)
+_log_: _number_ | _function_, default `0`
 
 The log level for the library. Possible values:
 
@@ -139,13 +157,13 @@ config({
 });
 ```
 
-_placeholder_ (String, default `{}`)
+_placeholder_: _string_, default `{}`
 
 The string to use as placeholder for interpolated values when generating the key for a translation.
 
 ### Literal tags
 
-§ **k**
+📖 **k**
 
 Obtains the _key_ for a certain literal:
 
@@ -170,7 +188,7 @@ config({
 });
 ```
 
-§ **v**
+📖 **v**
 
 Generates a translation function for a literal:
 
@@ -183,7 +201,7 @@ v`Salut, ${0}!`;
 
 When providing a translation, the interpolated values need to be numbers (i.e. `${0}`, `${1}`, et cetera). They don't necessarily need to be in sequential order, so you can swap them around if the translation needs it.
 
-§ **t**
+📖 **t**
 
 Get a translated string:
 
