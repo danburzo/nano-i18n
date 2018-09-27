@@ -296,8 +296,14 @@ module.exports = {
 
 > 💡 The `parse` option accepts a function which receives as its only argument the original text to parse, and which must return an array of `key`/`val` pairs.
 
-## Further reading
+## See also
+
+### Further reading
 
 -   [i18n with tagged template literals in ECMAScript 2015](https://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals/) by Jack Hsu
 -   [Easy i18n in 10 lines of JavaScript (PoC)](https://codeburst.io/easy-i18n-in-10-lines-of-javascript-poc-eb9e5444d71e) by Andrea Giammarchi
+
+### Other projects
+
 -   [i18n Tagged Template Literals](http://i18n-tag.kolmer.net/) by Steffen Kolmer
+-   [ttag](https://github.com/ttag-org/ttag)
