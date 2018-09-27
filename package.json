@@ -1,6 +1,6 @@
 {
 	"name": "nano-i18n",
-	"version": "0.1.11",
+	"version": "0.1.12",
 	"main": "dist/index.js",
 	"umd:main": "dist/index.umd.js",
 	"browser": "dist/index.umd.js",
@@ -10,6 +10,8 @@
 	"author": "Dan Burzo <danburzo@gmail.com>",
 	"license": "MIT",
 	"description": "Tiny experimental i18n library for JavaScript using tagged template literals.",
+	"homepage": "https://github.com/danburzo/nano-i18n",
+	"bugs": "https://github.com/danburzo/nano-i18n/issues",
 	"keywords": [
 		"i18n",
 		"translation",
