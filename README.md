@@ -67,6 +67,10 @@ console.log(t`Hello, ${'Dan'}!`);
 
 console.log(t`My name is ${'Dan'}, yours is ${'Alex'}`);
 // => "Your name is Alex, mine is Dan"
+
+// Using t(...) instead of t`...`
+console.log(t('My name is {}, yours is {}', 'Dan', 'Alex'));
+// => "Your name is Alex, mine is Dan"
 ```
 
 ## API reference
@@ -219,6 +223,12 @@ t('Hello World');
 ```
 
 This is useful for passing the `t` function to templating languages such as Mustache.
+
+In order to interpolate values in the string, you can add them as extra arguments:
+
+```js
+t('My name is {}, yours is {}', 'Dan', 'Alex');
+```
 
 ### Usage with Webpack
 
