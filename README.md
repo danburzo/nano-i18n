@@ -10,7 +10,7 @@
 
 ## Installation
 
-> 💡 You can [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
+`nano-i18n` is packaged using [microbundle](https://github.com/developit/microbundle) into ES / CJS / UMD files, so it works in Node as well as browsers. You can also [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
 
 ### From the `npm` registry
 
@@ -32,57 +32,99 @@ You can load the library directly in the browser as a `<script>` tag, using **un
 <script src='https://unpkg.com/nano-i18n'></script>
 ```
 
-## Usage
+## Basic usage
 
-Once you install the npm package, you can use it in your code like this:
+To use `nano-i18n`, you first need to load some translations into the store. We use the `k` (from _key_) and `v` (from _value_) tags to mark up our translations:
 
 ```js
-/*
-	1. Import the methods you need
-	------------------------------
+import { load, k, v } from 'nano-i18n';
 
-	P.S. You can also use require('nano-i18n')
- */
-import { load, k, v, t } from 'nano-i18n';
-
-/*
-	2. Load some translations into the store
-	----------------------------------------
- */
-
-// E.g. A simple key/value pair
+// Load a key/value pair into the store
 load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
+```
 
-// In the translation, you can swap
-// the order of the expressions
-load(k`My name is ${'mine'}, yours is ${'yours'}`, v`Your name is ${1}, mine is ${0}`);
+Afterwards, translate strings with the `t` tag:
 
-/* 
-	3. Translate some messages
-	--------------------------
-*/
+```
+import { t } from 'nano-i18n';
 
 console.log(t`Hello, ${'Dan'}!`);
 // => "Salut, Dan!"
-
-console.log(t`My name is ${'Dan'}, yours is ${'Alex'}`);
-// => "Your name is Alex, mine is Dan"
-
-// Using t(...) instead of t`...`
-console.log(t('My name is {}, yours is {}', 'Dan', 'Alex'));
-// => "Your name is Alex, mine is Dan"
 ```
 
 ## API reference
 
-### Managing translations
+### Literal tags
+
+📖 **k**
+
+Obtains the _key_ for a certain literal. By default, keys are obtained by replacing all interpolated values with the `{}` character sequence:
+
+```js
+import { k } from 'nano-i18n';
+
+k`Hello, ${'World'}`;
+// => "Hello, {}"
+```
+
+That means the strings you wish to translate must not otherwise contain the `{}` sequence. You may change the placeholder with the `config` method:
+
+```js
+import { config } from 'nano-i18n';
+
+config({
+	placeholder: '@@'
+});
+```
+
+📖 **v**
+
+Generates a translation function for a literal:
+
+```js
+import { v } from 'nano-i18n';
+
+v`Salut, ${0}!`;
+// => function(strings, values) {}
+```
+
+When providing a translation, the interpolated values need to be numbers (i.e. `${0}`, `${1}`, et cetera). They don't necessarily need to be in sequential order. You can swap them around if the translation needs it:
+
+````js
+import { k, v, t, load } from 'nano-i18n';
+
+load(
+	k`My name is ${0}, yours is ${1}`,
+	v`Your name is ${1}, mine is ${0}`
+);
+
+t`My name is ${'Dan'}, yours is ${'Alex'}`;
+// "Your name is Alex, mine is Dan"
+
+
+📖 **t**
+
+Get a translated string:
+
+```js
+import { t } from 'nano-i18n';
+
+t`Hello, ${'Dan'}!`;
+// => "Salut, Dan!"
+````
+
+If there's no translation available, it returns the normal interpolated string instead. The `log` config option controls how the library reports missing translations.
+
+### Managing the store
 
 📖 **load**(key: _string_, value: _string_ | _function_)
 
-The _load_ method adds translations to the store. You can add the translations one by one:
+The _load_ method adds translations to the store.
+
+You can add the translations one by one:
 
 ```js
-import { load } from 'nano-i18n';
+import { load, k, v } from 'nano-i18n';
 
 load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
 ```
@@ -90,7 +132,7 @@ load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
 Or a whole batch of translations:
 
 ```js
-import { load } from 'nano-i18n';
+import { load, k, v } from 'nano-i18n';
 
 let translations = {};
 translations[k`Hello, ${'World'}!`] = v`Salut, ${0}!`;
@@ -102,7 +144,7 @@ load(translations);
 Or using the [computed property names](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names) syntax:
 
 ```js
-import { load } from 'nano-i18n';
+import { load, k, v } from 'nano-i18n';
 
 load({
 	[k`Hello, ${'World'}!`]: v`Salut, ${0}!`,
@@ -165,72 +207,28 @@ _placeholder_: _string_, default `{}`
 
 The string to use as placeholder for interpolated values when generating the key for a translation.
 
-### Literal tags
+## Usage with templating languages
 
-📖 **k**
-
-Obtains the _key_ for a certain literal. By default, keys are obtained by replacing all interpolated values with the `{}` character sequence:
-
-```js
-import { k } from 'nano-i18n';
-
-k`Hello, ${'World'}`;
-// => "Hello, {}"
-```
-
-That means the strings you wish to translate must not otherwise contain the `{}` sequence. You may change the placeholder with the `config` method:
-
-```js
-import { config } from 'nano-i18n';
-
-config({
-	placeholder: '@@'
-});
-```
-
-📖 **v**
-
-Generates a translation function for a literal:
-
-```js
-import { v } from 'nano-i18n';
-
-v`Salut, ${0}!`;
-// => function(strings, values) {}
-```
-
-When providing a translation, the interpolated values need to be numbers (i.e. `${0}`, `${1}`, et cetera). They don't necessarily need to be in sequential order, so you can swap them around if the translation needs it.
-
-📖 **t**
-
-Get a translated string:
+You may be working with a templating language, such as Mustache or its variants, that does not support tagged template literals in its syntax. The good news is that tags in general, and the `t` tag in particular, can also be used as a plain function:
 
 ```js
 import { t } from 'nano-i18n';
-
-t`Hello, ${'Dan'}!`;
-// => "Salut, Dan!"
+t('Hello, World!');
+// => 'Salut, lume!'
 ```
 
-If there's no translation available, it returns the normal interpolated string instead, and logs a warning to the console.
+To use string interpolation with the `t()` function:
 
-You can also use `t` as a normal function for translating dynamic strings:
-
-```js
-import { t } from 'nano-i18n';
-
-t('Hello World');
-```
-
-This is useful for passing the `t` function to templating languages such as Mustache.
-
-In order to interpolate values in the string, you can add them as extra arguments:
+1. For the key, use a plain string with placeholders
+2. Pass the values as extra arguments to the function
 
 ```js
 t('My name is {}, yours is {}', 'Dan', 'Alex');
 ```
 
-### Usage with Webpack
+Look in your templating language's API reference for the specifics of passing, and using, functions in templates.
+
+## Usage with Webpack
 
 This library can be used with Webpack to load translations from external files with the `nano-i18n/loader` loader. `nano-i18n` comes with the loader, so you don't have to install any other packages.
 
