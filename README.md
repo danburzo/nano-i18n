@@ -45,7 +45,7 @@ load(k`Hello, ${'World'}!`, v`Salut, ${0}!`);
 
 Afterwards, translate strings with the `t` tag:
 
-```
+```js
 import { t } from 'nano-i18n';
 
 console.log(t`Hello, ${'Dan'}!`);
@@ -90,17 +90,14 @@ v`Salut, ${0}!`;
 
 When providing a translation, the interpolated values need to be numbers (i.e. `${0}`, `${1}`, et cetera). They don't necessarily need to be in sequential order. You can swap them around if the translation needs it:
 
-````js
+```js
 import { k, v, t, load } from 'nano-i18n';
 
-load(
-	k`My name is ${0}, yours is ${1}`,
-	v`Your name is ${1}, mine is ${0}`
-);
+load(k`My name is ${0}, yours is ${1}`, v`Your name is ${1}, mine is ${0}`);
 
 t`My name is ${'Dan'}, yours is ${'Alex'}`;
 // "Your name is Alex, mine is Dan"
-
+```
 
 📖 **t**
 
@@ -111,7 +108,7 @@ import { t } from 'nano-i18n';
 
 t`Hello, ${'Dan'}!`;
 // => "Salut, Dan!"
-````
+```
 
 If there's no translation available, it returns the normal interpolated string instead. The `log` config option controls how the library reports missing translations.
 
