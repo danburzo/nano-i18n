@@ -24,11 +24,11 @@
 		"loader.js"
 	],
 	"devDependencies": {
-		"husky": "^1.0.0",
-		"microbundle": "^0.6.0",
-		"prettier": "1.14.3",
-		"pretty-quick": "^1.7.0",
-		"tape": "^4.9.1"
+		"husky": "^2.4.0",
+		"microbundle": "^0.11.0",
+		"prettier": "1.17.1",
+		"pretty-quick": "^1.11.0",
+		"tape": "^4.10.2"
 	},
 	"scripts": {
 		"build": "microbundle",
