@@ -2,8 +2,6 @@
 	"name": "nano-i18n",
 	"version": "0.1.12",
 	"main": "dist/index.js",
-	"umd:main": "dist/index.umd.js",
-	"browser": "dist/index.umd.js",
 	"module": "dist/index.mjs",
 	"source": "index.js",
 	"repository": "git@github.com:danburzo/nano-i18n.git",
@@ -24,17 +22,16 @@
 		"loader.js"
 	],
 	"devDependencies": {
-		"husky": "^2.4.0",
-		"microbundle": "^0.11.0",
-		"prettier": "1.17.1",
-		"pretty-quick": "^1.11.0",
-		"tape": "^4.10.2"
+		"husky": "^4.3.8",
+		"prettier": "2.3.2",
+		"pretty-quick": "^3.1.1",
+		"tape": "^5.3.0",
+		"esbuild": "^0.12.17"
 	},
 	"scripts": {
-		"build": "microbundle",
-		"dev": "microbundle watch",
-		"prepublish": "yarn test",
-		"test": "yarn build && yarn tape index.test.js"
+		"build": "esbuild index.js --format=cjs --outfile=dist/index.js && esbuild index.js --format=esm --outfile=dist/index.mjs",
+		"prepublishOnly": "npm run test",
+		"test": "npm run build && tape index.test.js"
 	},
 	"prettier": {
 		"bracketSpacing": true,
