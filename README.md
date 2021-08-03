@@ -29,7 +29,7 @@ yarn add nano-i18n
 You can load the library directly in the browser as a `<script>` tag, using **unpkg**. This will get you the latest version in the UMD module format:
 
 ```html
-<script src='https://unpkg.com/nano-i18n'></script>
+<script src="https://unpkg.com/nano-i18n"></script>
 ```
 
 ## Basic usage
@@ -193,9 +193,14 @@ You can also set up a custom logging function, in case you want to keep track of
 import { config } from 'nano-i18n';
 
 config({
-	log: function(str) {
-		// do something with `str`,
-		// e.g. send the error to Sentry
+	log: function (message, key) {
+		/* 
+			You could do something with `message`,
+			e.g. send the error to Sentry. 
+
+			`key` contains just the key the message
+			refers to.
+		*/
 	}
 });
 ```
