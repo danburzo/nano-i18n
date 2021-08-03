@@ -28,7 +28,7 @@ let _log = LOG_SILENT;
 	into a single string, through interpolation.
  */
 function interpolate(strings, values) {
-	return strings.reduce(function(result, current_str, idx) {
+	return strings.reduce(function (result, current_str, idx) {
 		return result + current_str + (idx < values.length ? values[idx] : '');
 	}, '');
 }
@@ -51,7 +51,10 @@ function key(strings) {
 function value(strings, ...placeholders) {
 	return values =>
 		placeholders.length
-			? interpolate(strings, placeholders.map(i => values[i]))
+			? interpolate(
+					strings,
+					placeholders.map(i => values[i])
+			  )
 			: strings.join('');
 }
 
@@ -68,7 +71,7 @@ function translate(strings, ...values) {
 	let k = isString ? strings : key(strings);
 	let val = db[k];
 	if (!val) {
-		exceptional(`No translation found for ${k}`);
+		exceptional(`No translation found for ${k}`, k);
 		return isString ? strings : interpolate(strings, values);
 	}
 	return typeof val === 'string' ? val : val(values);
@@ -108,13 +111,13 @@ function clear() {
 
 	Decide what to do based on the log level.
  */
-function exceptional(str) {
+function exceptional(str, key) {
 	if (_log === LOG_WARN) {
 		console.warn(str);
 	} else if (_log === LOG_ERROR) {
 		throw new Error(str);
 	} else if (typeof _log === 'function') {
-		_log(str);
+		_log(str, key);
 	}
 }
 
