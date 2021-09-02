@@ -55,7 +55,7 @@ tape('config', test => {
 		t('Hello World');
 	}, /No translation found/);
 	config({
-		log: function() {
+		log: function () {
 			throw new Error('CustomError');
 		}
 	});
@@ -73,12 +73,8 @@ tape('config', test => {
 });
 
 tape('loader', test => {
-	let expected = `var nano = require('nano-i18n');
-var res = {};
-res[nano.k\`Hello, $\{'World'}\`] = nano.v\`Salut, $\{0}\`;
-res[nano.k\`Simple String\`] = nano.v\`Șir Simplu\`;
-module.exports = res;`;
-
+	let expected =
+		"var nano = require('nano-i18n'); \nvar res = {};\nres[nano.k`Hello, ${'World'}`] = nano.v`Salut, ${0}`;\nres[nano.k`Simple String`] = nano.v`Șir Simplu`;\nmodule.exports = res;";
 	test.equal(
 		loader([
 			{ key: "Hello, ${'World'}", val: 'Salut, ${0}' },
