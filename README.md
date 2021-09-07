@@ -10,7 +10,7 @@
 
 ## Installation
 
-`nano-i18n` is packaged using [microbundle](https://github.com/developit/microbundle) into ES / CJS / UMD files, so it works in Node as well as browsers. You can also [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
+`nano-i18n` is packaged into ES & CJS format, so it works in Node as well as browsers. You can also [try out the API on RunKit](https://npm.runkit.com/nano-i18n) without installing the library.
 
 ### From the `npm` registry
 
